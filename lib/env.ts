@@ -20,6 +20,6 @@ export const env = {
     "http://localhost:3000/api/auth/x/callback",
 
   // Supabase
-  SUPABASE_URL: process.env.SUPABASE_URL || "https://jthnophgvmduyywbzgmb.supabase.co",
-  SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0aG5vcGhndm1kdXl5d2J6Z21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMTI3MTgsImV4cCI6MjA5MDc4ODcxOH0.loDJi3H8uYU53LjRZ-oCERRB4-FVK6-A3i74SCu6n6g",
+  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || "https://jthnophgvmduyywbzgmb.supabase.co",
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0aG5vcGhndm1kdXl5d2J6Z21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMTI3MTgsImV4cCI6MjA5MDc4ODcxOH0.loDJi3H8uYU53LjRZ-oCERRB4-FVK6-A3i74SCu6n6g",
 };

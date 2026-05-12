@@ -8,7 +8,7 @@ export function rateLimit(identifier: string, maxRequests = 38, windowMs = 60000
   if (!record || now > record.resetTime) {
     // Reset or new record
     requestCounts.set(identifier, { count: 1, resetTime: now + windowMs });
-    return { allowed: true, remaining: maxRequests - 1 };
+    return { allowed: true, remaining: maxRequests - 1, resetIn: windowMs };
   }
 
   if (record.count >= maxRequests) {
@@ -16,5 +16,5 @@ export function rateLimit(identifier: string, maxRequests = 38, windowMs = 60000
   }
 
   record.count++;
-  return { allowed: true, remaining: maxRequests - record.count };
+  return { allowed: true, remaining: maxRequests - record.count, resetIn: record.resetTime - now };
 }
