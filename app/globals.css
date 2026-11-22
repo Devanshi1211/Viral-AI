@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
+
 :root {
   --background: oklch(0.98 0 0);
   --foreground: oklch(0.15 0 0);
@@ -34,42 +36,54 @@
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.25 0.05 280);
   --sidebar-ring: oklch(0.65 0.25 260);
+  /* ViralAI brand tokens */
+  --vai-purple: oklch(0.65 0.25 260);
+  --vai-blue: oklch(0.60 0.22 240);
+  --vai-cyan: oklch(0.72 0.18 210);
+  --vai-glow: oklch(0.65 0.25 260 / 0.3);
 }
 
 .dark {
-  --background: oklch(0.11 0 0);
+  --background: oklch(0.09 0.01 270);
   --foreground: oklch(0.97 0 0);
-  --card: oklch(0.15 0.03 280);
+  --card: oklch(0.12 0.03 280);
   --card-foreground: oklch(0.97 0 0);
-  --popover: oklch(0.15 0.03 280);
+  --popover: oklch(0.13 0.03 280);
   --popover-foreground: oklch(0.97 0 0);
-  --primary: oklch(0.65 0.25 260);
-  --primary-foreground: oklch(0.11 0 0);
+  --primary: oklch(0.68 0.25 260);
+  --primary-foreground: oklch(0.09 0 0);
   --secondary: oklch(0.51 0.21 240);
   --secondary-foreground: oklch(0.97 0 0);
-  --muted: oklch(0.25 0.02 280);
-  --muted-foreground: oklch(0.7 0 0);
-  --accent: oklch(0.65 0.25 260);
-  --accent-foreground: oklch(0.11 0 0);
+  --muted: oklch(0.20 0.02 280);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.68 0.25 260);
+  --accent-foreground: oklch(0.09 0 0);
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.97 0 0);
   --border: oklch(0.22 0.03 280);
-  --input: oklch(0.18 0.02 280);
-  --ring: oklch(0.65 0.25 260);
-  --chart-1: oklch(0.65 0.25 260);
-  --chart-2: oklch(0.51 0.21 240);
-  --chart-3: oklch(0.68 0.19 200);
-  --chart-4: oklch(0.6 0.23 300);
-  --chart-5: oklch(0.55 0.25 350);
-  --sidebar: oklch(0.12 0.05 280);
+  --input: oklch(0.16 0.02 280);
+  --ring: oklch(0.68 0.25 260);
+  --chart-1: oklch(0.68 0.25 260);
+  --chart-2: oklch(0.60 0.22 240);
+  --chart-3: oklch(0.72 0.18 200);
+  --chart-4: oklch(0.65 0.23 300);
+  --chart-5: oklch(0.62 0.25 350);
+  --sidebar: oklch(0.09 0.03 280);
   --sidebar-foreground: oklch(0.97 0 0);
-  --sidebar-primary: oklch(0.65 0.25 260);
-  --sidebar-primary-foreground: oklch(0.11 0 0);
-  --sidebar-accent: oklch(0.51 0.21 240);
+  --sidebar-primary: oklch(0.68 0.25 260);
+  --sidebar-primary-foreground: oklch(0.09 0 0);
+  --sidebar-accent: oklch(0.18 0.04 270);
   --sidebar-accent-foreground: oklch(0.97 0 0);
-  --sidebar-border: oklch(0.25 0.05 280);
-  --sidebar-ring: oklch(0.65 0.25 260);
+  --sidebar-border: oklch(0.20 0.04 280);
+  --sidebar-ring: oklch(0.68 0.25 260);
+  /* ViralAI brand tokens */
+  --vai-purple: oklch(0.68 0.25 260);
+  --vai-blue: oklch(0.62 0.22 240);
+  --vai-cyan: oklch(0.74 0.18 210);
+  --vai-glow: oklch(0.68 0.25 260 / 0.25);
 }
+
+/* ─── Theme inline mappings ─────────────────────────────────────────────────── */
 
 @theme inline {
   --font-sans: 'Poppins', 'Poppins Fallback', sans-serif;
@@ -103,34 +117,232 @@
   --radius-xl: 1rem;
 }
 
+/* ─── Base ───────────────────────────────────────────────────────────────────── */
+
 @layer base {
   * {
-    border-color: hsl(var(--color-border));
+    border-color: var(--border);
+    box-sizing: border-box;
   }
+
   body {
-    background-color: hsl(var(--color-background));
-    color: hsl(var(--color-foreground));
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.35 0.04 280);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.45 0.08 270);
   }
 }
 
+/* ─── Keyframes ──────────────────────────────────────────────────────────────── */
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--vai-glow); }
+  50%       { box-shadow: 0 0 20px 4px var(--vai-glow); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ring-fill {
+  from { stroke-dashoffset: 251; }
+  to   { stroke-dashoffset: var(--ring-offset, 0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── Components ─────────────────────────────────────────────────────────────── */
+
 @layer components {
+
+  /* === Glass Cards === */
   .glass {
-    backdrop-filter: blur(12px);
-    background: rgba(139, 92, 246, 0.08);
-    border: 1px solid rgba(139, 92, 246, 0.15);
+    backdrop-filter: blur(16px);
+    background: rgba(139, 92, 246, 0.06);
+    border: 1px solid rgba(139, 92, 246, 0.12);
     border-radius: 0.75rem;
   }
 
   .glass-card {
-    backdrop-filter: blur(12px);
-    background: rgba(139, 92, 246, 0.08);
-    border: 1px solid rgba(139, 92, 246, 0.15);
-    border-radius: 0.75rem;
+    backdrop-filter: blur(16px);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
     padding: 1.5rem;
-    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fade-in 0.4s ease both;
   }
 
-  .dark .glass-card:hover {
-    background: rgba(139, 92, 246, 0.15);
+  .dark .glass-card {
+    background: oklch(0.13 0.03 280 / 0.9);
+    border-color: oklch(0.22 0.04 280);
   }
+
+  .glass-card:hover {
+    border-color: oklch(0.68 0.25 260 / 0.4);
+    box-shadow: 0 8px 30px oklch(0 0 0 / 0.15), 0 0 0 1px oklch(0.68 0.25 260 / 0.1);
+  }
+
+  /* === ViralAI Premium Card === */
+  .vi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fade-in 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vi-card:hover {
+    border-color: oklch(0.68 0.25 260 / 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px oklch(0 0 0 / 0.2), 0 0 0 1px oklch(0.68 0.25 260 / 0.12);
+  }
+
+  /* === Gradient Text === */
+  .vi-gradient-text {
+    background: linear-gradient(135deg, oklch(0.78 0.2 260), oklch(0.72 0.2 210));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* === Score Ring === */
+  .score-ring {
+    animation: ring-fill 1s cubic-bezier(0.4, 0, 0.2, 1) both 0.3s;
+  }
+
+  /* === Skeleton Loading === */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--muted) 25%,
+      oklch(0.28 0.02 280) 50%,
+      var(--muted) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.5rem;
+  }
+
+  /* === Animations === */
+  .animate-fade-in    { animation: fade-in 0.4s ease both; }
+  .animate-slide-up   { animation: slide-up 0.4s ease both; }
+  .animate-scale-in   { animation: scale-in 0.3s ease both; }
+  .animate-count-up   { animation: count-up 0.5s ease both; }
+
+  .animate-fade-in-1  { animation: fade-in 0.4s ease 0.05s both; }
+  .animate-fade-in-2  { animation: fade-in 0.4s ease 0.10s both; }
+  .animate-fade-in-3  { animation: fade-in 0.4s ease 0.15s both; }
+  .animate-fade-in-4  { animation: fade-in 0.4s ease 0.20s both; }
+
+  /* === Platform Badge Colors === */
+  .badge-instagram {
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: white;
+  }
+  .badge-youtube  { background: #ff0000; color: white; }
+  .badge-twitter  { background: #000000; color: white; }
+  .badge-tiktok   { background: linear-gradient(135deg, #69C9D0, #EE1D52, #010101); color: white; }
+
+  /* === Influence Bar === */
+  .influence-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, oklch(0.68 0.25 260), oklch(0.72 0.18 210));
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* === Viral Score Colors === */
+  .score-high     { color: oklch(0.72 0.19 150); }
+  .score-good     { color: oklch(0.78 0.18 130); }
+  .score-moderate { color: oklch(0.78 0.17 65);  }
+  .score-low      { color: oklch(0.65 0.22 25);  }
+
+  .score-ring-high     { stroke: oklch(0.72 0.19 150); }
+  .score-ring-good     { stroke: oklch(0.78 0.18 130); }
+  .score-ring-moderate { stroke: oklch(0.78 0.17 65);  }
+  .score-ring-low      { stroke: oklch(0.65 0.22 25);  }
+
+  /* === Sidebar Active Item === */
+  .nav-item-active {
+    background: linear-gradient(90deg, oklch(0.68 0.25 260 / 0.2), oklch(0.62 0.22 240 / 0.1));
+    border-left: 2px solid oklch(0.68 0.25 260);
+    color: oklch(0.68 0.25 260);
+    padding-left: calc(0.75rem - 2px);
+  }
+
+  /* === Gradient Button === */
+  .btn-gradient {
+    background: linear-gradient(135deg, oklch(0.60 0.25 280), oklch(0.58 0.22 240));
+    color: white;
+    border: 0;
+    transition: all 200ms ease;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(135deg, oklch(0.55 0.25 280), oklch(0.53 0.22 240));
+    box-shadow: 0 4px 16px oklch(0.60 0.25 280 / 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-gradient:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* === Stat Badge === */
+  .stat-badge-green   { background: oklch(0.72 0.19 150 / 0.12); color: oklch(0.72 0.19 150); border: 1px solid oklch(0.72 0.19 150 / 0.25); }
+  .stat-badge-yellow  { background: oklch(0.78 0.17 65 / 0.12);  color: oklch(0.78 0.17 65);  border: 1px solid oklch(0.78 0.17 65 / 0.25); }
+  .stat-badge-red     { background: oklch(0.65 0.22 25 / 0.12);  color: oklch(0.65 0.22 25);  border: 1px solid oklch(0.65 0.22 25 / 0.25); }
+  .stat-badge-blue    { background: oklch(0.68 0.25 260 / 0.12); color: oklch(0.68 0.25 260); border: 1px solid oklch(0.68 0.25 260 / 0.25); }
+  .stat-badge-orange  { background: oklch(0.72 0.20 45 / 0.12);  color: oklch(0.72 0.20 45);  border: 1px solid oklch(0.72 0.20 45 / 0.25); }
 }

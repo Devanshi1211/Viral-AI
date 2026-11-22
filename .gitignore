@@ -7,10 +7,33 @@ __v0_jsx-dev-runtime.ts
 .vercel/
 next.user-config.*
 
-# Environment variables
+# Environment variables & secrets (CRITICAL: NEVER COMMIT)
+.env
+.env.*
 .env*.local
+*.env
 
-# Common ignores
-node_modules
+# Dependencies & build outputs
+node_modules/
 .next/
+out/
+build/
+dist/
 .DS_Store
+*.tsbuildinfo
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+ml-service/.venv/
+ml-service/**/__pycache__/
+viral-ai-dashboard/node_modules/
+
+# Scratch & test scripts
+tmp_*.js
+tmp_payload.json
+test_model.js

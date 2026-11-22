@@ -1,59 +1,65 @@
-// Virality Score API — uses the prediction engine for data-driven scoring
 import { NextRequest, NextResponse } from "next/server";
-import { predictVirality } from "@/lib/virality-engine";
-import { generateText } from "@/lib/gemini";
-import { buildViralityPrompt } from "@/lib/prompts";
-import { handleGeminiError } from "@/lib/api-response";
-import { rateLimit } from "@/lib/rate-limiter";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    // Mode 1: ML-style prediction with numeric inputs
-    if (body.likes !== undefined || body.engagementRate !== undefined) {
-      const input = {
-        likes: Number(body.likes) || 0,
-        comments: Number(body.comments) || 0,
-        shares: Number(body.shares) || 0,
-        watchTime: Number(body.watchTime) || 0,
-        captionLength: Number(body.captionLength) || 100,
-        hashtagsCount: Number(body.hashtagsCount) || 5,
-        postingHour: Number(body.postingHour) || 18,
-        engagementRate: Number(body.engagementRate) || 0,
-      };
-
-      const result = predictVirality(input);
-      return NextResponse.json({ success: true, ...result });
+    if (
+      body.likes === undefined &&
+      body.engagementRate === undefined
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Provide numeric metrics for prediction"
+        },
+        { status: 400 }
+      );
     }
 
-    // Mode 2: AI-powered analysis with topic text
-    if (body.topic) {
-      // Rate limit: 38 requests per minute per IP
-      const clientIP = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-      const limitResult = rateLimit(clientIP, 38, 60000);
-
-      if (!limitResult.allowed) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: `Rate limit exceeded. Try again in ${Math.ceil(limitResult.resetIn / 1000)} seconds.`,
-          },
-          { status: 429 }
-        );
+    const response = await fetch(
+      "http://127.0.0.1:8002/predict",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          likes: Number(body.likes) || 0,
+          comments: Number(body.comments) || 0,
+          shares: Number(body.shares) || 0,
+          watchTime: Number(body.watchTime) || 0,
+          captionLength: Number(body.captionLength) || 100,
+          hashtagsCount: Number(body.hashtagsCount) || 5,
+          postingHour: Number(body.postingHour) || 18,
+          engagementRate: Number(body.engagementRate) || 0
+        })
       }
+    );
 
-      const prompt = buildViralityPrompt(body.topic, body.platform || "Instagram");
-      const text = await generateText(prompt);
-      return NextResponse.json({ success: true, text });
+    if (!response.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "ML service returned an error"
+        },
+        { status: 502 }
+      );
     }
+
+    const result = await response.json();
+
+    return NextResponse.json(result);
+
+  } catch (error) {
+    console.error("Virality ML error:", error);
 
     return NextResponse.json(
-      { success: false, error: "Provide either numeric metrics or a topic for analysis" },
-      { status: 400 }
+      {
+        success: false,
+        error: "ML service unavailable. Make sure FastAPI is running on port 8002."
+      },
+      { status: 503 }
     );
-  } catch (error: unknown) {
-    console.error("Virality score error:", error);
-    return handleGeminiError(error);
   }
 }
